@@ -10,6 +10,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
   <body>
+  	<div id ='app'>
   	<h1><center>INVENTORY</center></h1>
   	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-left: 90%;">Add Item</button>
   	<table class="table table-striped table-dark">
@@ -38,24 +39,62 @@
         <form>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" id="name">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Quantity</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <label>Quantity</label>
+            <input type="number" class="form-control" name="quantity">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Quantity</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <label>Category</label>
+            <select class="form-control" name="category">
+            	<option></option>
+            	<option value="Equipment">Equipment</option>
+            	<option value="Utensil">Utensil</option>
           </div>
-        </form>
+      </select>
       </div>
-      <div class="modal-footer">
+      	<div class="modal-footer">
       	 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
+      	</div>
+		</form>
   </body>
+  	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  	<script>
+  		var items = @json($items);
+  		var vm = new Vue({
+			el:'#app',
+			data:{
+				items:items,
+				new_items:{
+					id: '',
+					name: '',
+					quantity: '',
+					category:''
+				}
+			},
+			computed:{
+				methods: {
+				postNewTask() {
+					axios.get('url', 'parameters');
+					axios.post('/projects/'+this.project.id+'/tasks', this.new_task)
+						.then(({data})=>{
+							this.tasks.push(data);
+							this.new_task.title = '';
+							console.log(data);
+						});
+				},
+				deleteTask(task) {
+					axios.post('/tasks/'+task.id+'/delete')
+						.then(function(response){
+							var index = vm.tasks.indexOf(task);
+							vm.tasks.splice(index, 1);
+					});
+				}
+			}
+		});
+	</script>
 </html>

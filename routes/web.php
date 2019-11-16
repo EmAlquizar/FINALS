@@ -15,3 +15,5 @@ Route::get('/', function () {
     return view('master');
 });
 
+Route::get('/word', 'ReportsController@word');
+Route::get('/excel', 'ReportsController@excel');
