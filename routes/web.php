@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('/word', 'ReportsController@word');
 Route::get('/excel', 'ReportsController@excel');
+Route::post('/inventory', 'InventoriesController@store');

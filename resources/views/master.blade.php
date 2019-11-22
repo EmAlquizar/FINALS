@@ -23,6 +23,20 @@
       <th scope="col">Action</th>
     </tr>
   	</thead>
+    <tbody>
+      <td>
+        @{{ inventory.id }}
+      </td>
+       <td>
+        @{{ inventory.name }}
+      </td>
+      <td>
+        @{{ inventory.quantity }}
+      </td>
+      <td>
+        @{{ inventory.category }}
+      </td>
+    </tbody>
 	</table>
 
 <!-- Modal -->
@@ -64,37 +78,31 @@
   	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   	<script>
-  		var items = @json($items);
+  		var inventories = @json($inventories);
   		var vm = new Vue({
 			el:'#app',
 			data:{
-				items:items,
-				new_items:{
-					id: '',
+				inventories:inventories,
+				new_item:{
+					id: 1,
 					name: '',
-					quantity: '',
+					quantity: 1,
 					category:''
 				}
 			},
 			computed:{
 				methods: {
-				postNewTask() {
-					axios.get('url', 'parameters');
-					axios.post('/projects/'+this.project.id+'/tasks', this.new_task)
+				postNewItem() {
+					axios.post('/inventory', this.new_item)
 						.then(({data})=>{
-							this.tasks.push(data);
-							this.new_task.title = '';
+							this.inventories.push(data);
+							this.new_item.name = '';
+              this.new_item.category = '';
 							console.log(data);
 						});
-				},
-				deleteTask(task) {
-					axios.post('/tasks/'+task.id+'/delete')
-						.then(function(response){
-							var index = vm.tasks.indexOf(task);
-							vm.tasks.splice(index, 1);
-					});
 				}
 			}
+    }
 		});
 	</script>
 </html>
