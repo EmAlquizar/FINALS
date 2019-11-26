@@ -11,10 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('master');
-});
-
-Route::get('/word', 'ReportsController@word');
-Route::get('/excel', 'ReportsController@excel');
-Route::post('/inventory', 'InventoriesController@store');
+// Route::get('/', function () {
+//     return view('master');
+// });
+Route::get('/', 'InventoryController@index');
+Route::post('/inventory', 'InventoryController@store');

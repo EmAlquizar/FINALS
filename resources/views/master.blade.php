@@ -24,18 +24,23 @@
     </tr>
   	</thead>
     <tbody>
+      <tr v-for = "item in items">
       <td>
-        @{{ inventory.id }}
+        @{{ item.id }}
       </td>
        <td>
-        @{{ inventory.name }}
+        @{{ item.name }}
       </td>
       <td>
-        @{{ inventory.quantity }}
+        @{{ item.quantity }}
       </td>
       <td>
-        @{{ inventory.category }}
+        @{{ item.category }}
       </td>
+      <td>
+        <button class ="btn btn-primary">Edit</button>
+      </td>
+    </tr>
     </tbody>
 	</table>
 
@@ -50,59 +55,68 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" v-model='new_item.name' class="form-control" name="name">
           </div>
           <div class="form-group">
             <label>Quantity</label>
-            <input type="number" class="form-control" name="quantity">
+            <input type="number" v-model='new_item.quantity' class="form-control" name="quantity">
           </div>
           <div class="form-group">
             <label>Category</label>
-            <select class="form-control" name="category">
-            	<option></option>
+            <select class="form-control" v-model='new_item.category' name="category">
             	<option value="Equipment">Equipment</option>
             	<option value="Utensil">Utensil</option>
+            </select>
           </div>
-      </select>
       </div>
       	<div class="modal-footer">
       	 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" v-on:click="postNewItem">Save</button>
       	</div>
-		</form>
+      </div>
+    </div>
+  </div>
+</div>
   </body>
   	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   	<script>
-  		var inventories = @json($inventories);
-  		var vm = new Vue({
+  		var items = @json($items);
+    </script>
+  <script>
+  var vm = new Vue({
 			el:'#app',
 			data:{
-				inventories:inventories,
+				items: items,
 				new_item:{
 					id: 1,
 					name: '',
 					quantity: 1,
-					category:''
+					category:'',
 				}
 			},
-			computed:{
 				methods: {
-				postNewItem() {
+				postNewItem(){
 					axios.post('/inventory', this.new_item)
 						.then(({data})=>{
-							this.inventories.push(data);
+							this.items.push(data);
 							this.new_item.name = '';
               this.new_item.category = '';
 							console.log(data);
 						});
-				}
+				},
+        deleteTask(item){
+          axios.post('/projects/'+this.project.id+'/tasks', this.new_task)
+            .then(({data})=>{
+              this.tasks.push(data);
+              this.new_task.title = '';
+              console.log(data);
+            });
+        }
 			}
-    }
-		});
+		})
 	</script>
 </html>
